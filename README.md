@@ -25,7 +25,7 @@ git remote add origin repository-url.git
 ```
 
 ### Pushing to the remote repository
-"origin" as the remote repository and "master" as the branch name
+"origin" as the remote repository alias and "master" as the branch name
 ```
 git push -u origin master
 ```
