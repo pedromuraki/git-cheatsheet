@@ -1,125 +1,183 @@
-A simple git cheatsheet.
-
-***
-
 ## Setup
 
-### Initializing a repository
+### Iniciar um novo repositório
 ```
 $ git init
 ```
 
-### Cloning a repository
+### Clonar um repositório
 ```
-$ git clone repository-url.git .
+$ git clone url-do-repositorio.git .
 ```
 
-### Cleaning the cloned repository
+### Deletar um repositório
 ```
 $ rm -rf .git
 ```
 
-### Adding a remote repository
+### Adicionar um repositório remoto
 ```
-$ git remote add origin repository-url.git
+$ git remote add origin url-do-repositorio.git
 ```
-
-### Pushing to the remote repository
-"origin" as the remote repository alias and "master" as the branch name
-```
-$ git push -u origin master
-```
-Typing `-u` allows the next pushes to be only `git push`
 
 ***
 
-## Workflow
+## Criando commits
 
-### Check actual status
+### Checar status do repositório
 ```
 $ git status
 ```
 
-### Add files for staging area
+### Adicionar arquivos criados ou modificados na staging area
 ```
-$ git add filename
+$ git add nome-do-arquivo
 $ git add .
 ```
-
-### Commit files
+Seleciona apenas alguma(s) parte(s) modificadas para serem adicionadas na staged area separadamente para serem comitadas separadamente.
 ```
-$ git commit -m "message"
-```
-Add modified files to staging area and commit (does not add untracked files)
-```
-$ git commit -am "message"
+$ git add -p
 ```
 
-### Commit history
+### Criando um commit
+```
+$ git commit -m "mensagem"
+```
+Adiciona os arquivos modificados na staging area e cria o commit (não adiciona arquivos ainda não trackeados).
+```
+$ git commit -am "mensagem"
+```
+
+### Visualizar histórico de commits
 ```
 $ git log
 $ git log --graph
 ```
-
-### Reverting a file to the last commit stage
+Visualiza um log mais completo com todas as ações realizadas. Permite recuperar coisas depois de um reset --hard.
 ```
-$ git checkout filename
+$ git reflog
 ```
 
 ***
 
-## Reseting commits
-All "resets" deletes the selected commits. The "commit-id" is the id refered to one commit below the commit(s) to be deleted.
+## Revertendo e resetando commits
 
-### Reseting "soft"
-Reverts the commit(s) and put files back in the staging area (modified files)
+### Revertendo modificações de um arquivo para a versão do último commit
+```
+$ git checkout nome-do-arquivo
+```
+
+### Revert
+Desfaz as modificações do commit selecionado e cria um novo commit para essa ação.
+```
+$ git revert commit-id
+```
+
+### Resets
+Todos os "resets" deletam os commits selecionados e alteram o histórico. O commit id passado no comando deve ser referente ao commit anterior ao(s) que deve(m) ser deletado(s) (utilizar com cautela pois altera o histórico, evitar utilizar caso já tenha enviado o(s) commit(s) ao repositório remoto para evitar conflitos com outros usuários).
+
+#### Reset "soft"
+Deleta o(s) commit(s) selecionado(s) e coloca os arquivos de volta na staging area (com os arquivos modificados).
 ```
 $ git reset --soft commit-id
 ```
 
-### Reseting "mixed"
-Reverts the commit(s) and put files back in the unstaged area (modified files)
+#### Reset "mixed"
+Deleta o(s) commit(s) selecionado(s) e coloca os arquivos de volta na unstaged area (com os arquivos modificados).
 ```
 $ git reset --mixed commit-id
 ```
 
-### Reseting "hard"
-Reverts the files back to the selected commit, without the modifications
+#### Reset "hard"
+Deleta o(s) commit(s) selecionado(s) e retorna os arquivos na versão do último commit atual (sem as modificações posteriores).
 ```
 $ git reset --hard commit-id
 ```
 
 ***
 
+## Corrigindo e alterando commits
+
+### Amend
+Edita o último commit. Pode-se adicionar novas modificações ou arquivos e/ou alterar a mensagem de commit. Antes de utilizar o comando, adicionar as novas modificações na staging area.
+```
+$ git commit --amend
+```
+
+### Rebase interativo
+Seleciona os "x" últimos commits para serem agrupados em um único commit (utilizar pick + squash > obs: altera o histórico).
+```
+$ git rebase -i HEAD~x
+```
+
+### Fixup
+Faz uma correção do commit selecionado, criando um novo commit com o prefixo “fixup!” adicionando as novas modificações. Interessante para se usar combinado com o comando “git rebase -i --autosquash” posteriormente para fazer um rebase dos commits com fixup.
+```
+$ git commit --fixup commit-id
+```
+
+***
+
 ## Branches
 
-### Creating a branch
+### Criar uma branch
 ```
-$ git checkout -b branch-name
+$ git checkout -b nome-da-branch
 ```
 
-### Listing branches
+### Listar branches
 ```
 $ git branch
 ```
 
-### Changing from a branch to another
+### Trocar de uma branch para outra
 ```
-$ git checkout branch-name
+$ git checkout nome-da-branch
 ```
 
-### Merging branches
+### Dar merge em uma branch
+Alterar para a branch principal antes.
 ```
-$ git merge branch-name
+$ git merge nome-da-branch
 ```
-Checkout to master branch before
 
-### Deleting branches
-Delete a local branch
+### Deletar branches
 ```
-$ git branch -d branch-name
+$ git branch -D nome-da-branch
 ```
-$ Delete a remote branch
+
+***
+
+## Atualizando repositórios locais e remotos
+
+### Push
+Atualiza repositório remoto.
 ```
-$ git push origin --delete branch-name
+$ git push -u origin nome-da-branch
 ```
+
+### Pull
+Atualiza repositório local.
+```
+$ git pull -u origin nome-da-branch
+```
+
+Utilizar o comando "-u" para trackear a branch (não é necessário mais digitar "origin nome-da-branch" posteriormente).
+
+***
+
+## Utilidades
+
+### Stash
+Salva o estado das modificações sem fazer um commit (salva com stash, e ativa com apply). Útil para quando se está fazendo modificações dentro de uma branch errada, por exemplo (dar stash, alterar a branch, e dar apply).
+```
+$ git stash
+$ git stash apply
+```
+
+***
+
+## Referências
+
+[Workflows (Artigo do BitBucket)](https://www.atlassian.com/git/tutorials/comparing-workflows)
+[git-flow cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/index.pt_BR.html)
