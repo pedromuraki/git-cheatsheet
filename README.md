@@ -175,12 +175,10 @@ $ git stash
 $ git stash apply
 ```
 
-
 ***
-
 
 ## Referências
 
-[Workflows (Artigo do BitBucket)](https://www.atlassian.com/git/tutorials/comparing-workflows)
+[workflows (artigo do bitbucket)](https://www.atlassian.com/git/tutorials/comparing-workflows)
 
 [git-flow cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/index.pt_BR.html)
