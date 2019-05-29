@@ -1,51 +1,39 @@
 ## Setup
 
-### Iniciar um novo repositório
+### Iniciar um novo repositório local
 ```
 $ git init
 ```
 
-### Clonar um repositório
-```
-$ git clone url-do-repositorio.git .
-```
-
-### Deletar um repositório
+### Deletar um repositório local
 ```
 $ rm -rf .git
-```
-
-### Adicionar um repositório remoto
-```
-$ git remote add origin url-do-repositorio.git
 ```
 
 ***
 
 ## Criando commits
 
-### Checar status do repositório
+### Checar status das modificações
+Checa diferença entre último commit e o que foi modificado ou criado após o mesmo.
 ```
 $ git status
 ```
 
-### Adicionar arquivos criados ou modificados na staging area
+### Adicionar arquivos criados ou modificados na staging area (index)
 ```
 $ git add nome-do-arquivo
 $ git add .
 ```
-Seleciona apenas alguma(s) parte(s) modificadas para serem adicionadas na staged area separadamente para serem comitadas separadamente.
+
+### Remover arquivos da staging area (index)
 ```
-$ git add -p
+$ git rm --cached nome-do-arquivo
 ```
 
 ### Criando um commit
 ```
 $ git commit -m "mensagem"
-```
-Adiciona os arquivos modificados na staging area e cria o commit (não adiciona arquivos ainda não trackeados).
-```
-$ git commit -am "mensagem"
 ```
 
 ### Visualizar histórico de commits
@@ -53,22 +41,32 @@ $ git commit -am "mensagem"
 $ git log
 $ git log --graph
 ```
-Visualiza um log mais completo com todas as ações realizadas. Permite recuperar coisas depois de um reset --hard.
+
+### Visualizar "snapshot" de algum commit anterior
+```
+$ git checkout commit-id
+```
+<!-- Visualiza um log mais completo com todas as ações realizadas. Permite recuperar coisas depois de um reset --hard.
 ```
 $ git reflog
-```
+``` -->
 
 ***
 
-## Revertendo e resetando commits
+## Revertendo e resetando
 
-### Revertendo modificações de um arquivo para a versão do último commit
+### Descartando modificações de um arquivo e retornando para a versão do último commit
 ```
 $ git checkout nome-do-arquivo
 ```
 
+### Descartando TODAS as modificações na "working" ou "staging" area (não inclui arquivos novos)
+```
+$ git reset --hard HEAD
+```
+
 ### Revert
-Desfaz as modificações do commit selecionado e cria um novo commit para essa ação.
+Desfaz as modificações do commit selecionado, criando um novo commit para essa ação.
 ```
 $ git revert commit-id
 ```
@@ -96,7 +94,7 @@ $ git reset --hard commit-id
 
 ***
 
-## Corrigindo e alterando commits
+## Corrigindo e alterando
 
 ### Amend
 Edita o último commit. Pode-se adicionar novas modificações ou arquivos e/ou alterar a mensagem de commit. Antes de utilizar o comando, adicionar as novas modificações na staging area.
@@ -105,16 +103,16 @@ $ git commit --amend
 ```
 
 ### Rebase interativo
-Seleciona os "x" últimos commits para serem agrupados em um único commit (utilizar pick + squash > obs: altera o histórico).
+Seleciona os "x" últimos commits para serem editados ou alterados. Possível editar mensagens, agrupar commits, alterar arquivos, entre outros.
 ```
 $ git rebase -i HEAD~x
 ```
 
-### Fixup
+<!-- ### Fixup
 Faz uma correção do commit selecionado, criando um novo commit com o prefixo “fixup!” adicionando as novas modificações. Interessante para se usar combinado com o comando “git rebase -i --autosquash” posteriormente para fazer um rebase dos commits com fixup.
 ```
 $ git commit --fixup commit-id
-```
+``` -->
 
 ***
 
